@@ -3,8 +3,15 @@ from rest_framework import viewsets
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.permissions import AllowAny
 
-from .models import MemberProfile
-from .serializers import MemberProfileSerializer
+from .models import MemberProfile, User
+from .serializers import MemberProfileSerializer, UserSerializer
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    permission_classes = [AllowAny]
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
 
 class MemberViewSet(viewsets.ModelViewSet):
