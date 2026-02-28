@@ -1,0 +1,45 @@
+# =========================
+# Python / Django
+# =========================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.sqlite3
+db.sqlite3
+
+# environments
+.env/
+.env.*
+.env.local
+
+# Django static/media (if generated)
+staticfiles/
+media/
+
+# =========================
+# IDE / Editor
+# =========================
+.idea/
+.vscode/
+
+# =========================
+# OS files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Frontend (Next.js)
+# =========================
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+
+# Logs
+*.log
+
+# =========================
+# Docker
+# =========================
+*.pid

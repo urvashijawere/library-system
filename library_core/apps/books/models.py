@@ -37,7 +37,7 @@ class BookCopy(models.Model):
     class Status(models.TextChoices):
         AVAILABLE = "AVAILABLE", "Available"
         ISSUED = "ISSUED", "Issued"
-        RESERVED = "RESERVED", "Reserved"
+        DAMAGED = "DAMAGED", "Damaged"
         LOST = "LOST", "Lost"
 
     barcode = models.CharField(max_length=255, unique=True)
