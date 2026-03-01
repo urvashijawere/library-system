@@ -1,37 +1,39 @@
-from django.contrib.auth.decorators import permission_required
-from django.shortcuts import get_object_or_404
-from django.http import JsonResponse
-from rest_framework import viewsets
+from rest_framework import viewsets, status
+from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
+
+from django.db import transaction
+from django.utils import timezone
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
 
 from .models import IssueRecord
-# from .services import borrow_book
-from .serializers import IssueRecordSerializer
-
-
-# @permission_required("records.can_borrow_book")
-# def borrow_view(request, barcode):
-#     book_copy = get_object_or_404(BookCopy, barcode=barcode)
-#     member_profile = request.user.member_profile
-#
-#     record = borrow_book(member_profile, book_copy)
-#
-#     return JsonResponse({"status": "Borrowed", "record_id": record.id})
+from .services import IssueService
+from apps.books.models import BookCopy
+from .serializers import IssueRecordSerializer, IssueSerializer
 
 
 class IssueRecordViewSet(viewsets.ModelViewSet):
     permission_classes = [AllowAny]
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     queryset = IssueRecord.objects.all()
-    serializer_class = IssueRecordSerializer
+    serializer_class = IssueSerializer  # for create only
 
-    # Exact filtering
     filterset_fields = ['issued_at', 'due_date', 'returned_at', 'member', 'status']
-
-    # Search (partial match)
     search_fields = ['issued_at', 'due_date', 'returned_at']
-
-    # Ordering
     ordering_fields = ['issued_at', 'due_date', 'returned_at']
+
+    @action(detail=False, methods=["post"], url_path="issue")
+    def issue(self, request):
+        serializer = IssueRecordSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        result = IssueService.issue_book(serializer.validated_data)
+
+        return Response(result, status=status.HTTP_201_CREATED)
+
+    @action(detail=True, methods=["post"], url_path="return")
+    def return_book(self, request, pk=None):
+        result = IssueService.return_book(record_id=pk)
+        return Response(result, status=status.HTTP_200_OK)

@@ -24,6 +24,28 @@ class BookViewSet(viewsets.ModelViewSet):
     search_fields = ['title', 'author']
     ordering_fields = ['title', 'created_at']
 
+    @action(detail=False, methods=["patch"], url_path="bulk-update")
+    def bulk_update(self, request):
+        data = request.data
+
+        if not isinstance(data, list):
+            return Response({"error": "Expected a list of objects"}, status=status.HTTP_400_BAD_REQUEST)
+
+        updated_objects = []
+        with transaction.atomic():
+            for item in data:
+                try:
+                    obj = Book.objects.get(id=item["id"])
+                except Book.DoesNotExist:
+                    continue
+
+                serializer = self.get_serializer(obj, data=item, partial=True)
+                serializer.is_valid(raise_exception=True)
+                serializer.save()
+                updated_objects.append(serializer.data)
+
+        return Response(updated_objects, status=status.HTTP_200_OK)
+
 
 class AddBookCopiesAPIView(APIView):
     @transaction.atomic
@@ -50,6 +72,28 @@ class BookCopyViewSet(viewsets.ModelViewSet):
     filterset_fields = ['created_at', 'status']
     search_fields = ['created_at', 'status']
     ordering_fields = ['created_at', 'status']
+
+    @action(detail=False, methods=["patch"], url_path="bulk-update")
+    def bulk_update(self, request):
+        data = request.data
+
+        if not isinstance(data, list):
+            return Response({"error": "Expected a list of objects"}, status=status.HTTP_400_BAD_REQUEST)
+
+        updated_objects = []
+        with transaction.atomic():
+            for item in data:
+                try:
+                    obj = BookCopy.objects.get(id=item["id"])
+                except BookCopy.DoesNotExist:
+                    continue
+
+                serializer = self.get_serializer(obj, data=item, partial=True)
+                serializer.is_valid(raise_exception=True)
+                serializer.save()
+                updated_objects.append(serializer.data)
+
+        return Response(updated_objects, status=status.HTTP_200_OK)
 
     # @action(detail=True, methods=["post"])
     # def issue(self, request, pk=None):

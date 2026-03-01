@@ -2,10 +2,11 @@ from rest_framework.routers import DefaultRouter
 from .views import BookViewSet, BookCopyViewSet, AddBookCopiesAPIView
 from django.urls import path, include
 
-# router = DefaultRouter()
-# router.register(r'', BookViewSet)
+router = DefaultRouter()
+router.register(r'book-copies', BookCopyViewSet)
+router.register(r'', BookViewSet)
 
 urlpatterns = [
-    # path('', include(router.urls)),   # ViewSet URLs
-    path('copies/', AddBookCopiesAPIView.as_view(), name='book-copies'),  # APIView URL
+    path('copies/', AddBookCopiesAPIView.as_view(), name='copies'), # APIView URL
+    path('', include(router.urls)), # ViewSet URLs
 ]

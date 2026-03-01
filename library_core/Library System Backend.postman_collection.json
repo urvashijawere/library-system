@@ -1,0 +1,419 @@
+{
+  "info": {
+    "_postman_id": "d80777a9-ba7f-45a5-9085-8401292e9d43",
+    "name": "Library System Backend",
+    "description": "### Welcome to Postman! This is your first collection. \n\nCollections are your starting point for building and testing APIs. You can use this one to:\n\n• Group related requests\n• Test your API in real-world scenarios\n• Document and share your requests\n\nUpdate the name and overview whenever you’re ready to make it yours.\n\n[Learn more about Postman Collections.](https://learning.postman.com/docs/collections/collections-overview/)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "52755181",
+    "_collection_link": "https://go.postman.co/collection/52755181-d80777a9-ba7f-45a5-9085-8401292e9d43?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Book Operations",
+      "item": [
+        {
+          "name": "Books",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/v1/books/?genre=FICTION",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "books",
+                ""
+              ],
+              "query": [
+                {
+                  "key": "genre",
+                  "value": "FICTION"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Book bulk update",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  { \"id\": 1, \"genre\": \"NON_FICTION\" },\n  { \"id\": 2, \"author\": \"Alex Xu Sr\" },\n  { \"id\": 3, \"author\": \"Robert  King\"}\n]",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/v1/books/bulk-update/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "books",
+                "bulk-update",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Book Copies",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/v1/books/book-copies/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "books",
+                "book-copies",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add Book Copies",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"isbn\": \"198764\",\n    \"title\": \"INFLUENCE\",\n    \"author\": \"Robert Blitzkrieg\",\n    \"genre\": \"SELF_HELP\",\n    \"copies\": [{\"barcode\": \"999\"}, {\"barcode\": \"666\"},{\"barcode\": \"777\"},{\"barcode\": \"888\"}]\n  }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/v1/books/copies/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "books",
+                "copies",
+                ""
+              ]
+            },
+            "description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+          },
+          "response": []
+        },
+        {
+          "name": "Book Copies Bulk update",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  { \"id\": 1, \"status\": \"LOST\" },\n  { \"id\": 2, \"status\": \"LOST\" },\n  { \"id\": 3, \"status\": \"LOST\" }\n]",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/v1/books/book-copies/bulk-update/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "books",
+                "book-copies",
+                "bulk-update",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Book Copies",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"copy_ids\": [\n        \"2222\",\n        \"5678\",\n        \"2345\"\n    ] // Variable to hold the list of copy IDs to be deleted\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/v1/books/copies/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "books",
+                "copies",
+                ""
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "User Ops",
+      "item": [
+        {
+          "name": "Users",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"username\": \"William\",\n    \"email\": \"william.smith@example.com\",\n    \"password\": \"password12345\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/v1/users/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "users",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "MemberProfile",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"user\": \"2\",\n    \"membership_id\" : \"56789s\",\n    \"id_proof_type\": \"Aadhar\",\n    \"id_proof_number\": \"12345678sEFasdg\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/v1/users/members/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "users",
+                "members",
+                ""
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Record Ops",
+      "item": [
+        {
+          "name": "Issue Book",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"book_copy_id\": 19,\n  \"member_id\": 2,\n  \"due_date\": \"2026-03-15T10:00:00\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/v1/records/issue/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "records",
+                "issue",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Records",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "// {\n//     \"due_date\": \"2023-12-31\",\n//     \"book_copy\": \"2\",\n//     \"member\": \"1\"\n// }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/v1/records/?due_date__lt=2021-12-30T00:00:00Z&status=ACTIVE",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "records",
+                ""
+              ],
+              "query": [
+                {
+                  "key": "due_date__lt",
+                  "value": "2021-12-30T00:00:00Z"
+                },
+                {
+                  "key": "status",
+                  "value": "ACTIVE"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Return Book",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/v1/records/4/return/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "records",
+                "4",
+                "return",
+                ""
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
