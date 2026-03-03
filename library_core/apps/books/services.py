@@ -31,8 +31,7 @@ class BookService:
     @transaction.atomic
     def delete_book_copies(validated_data):
         # Lock rows for safety
-        barcodes = validated_data["copy_ids"]
-        print("barcodes :", barcodes)
+        barcodes = validated_data["copy_barcodes"]
         copies = (BookCopy.objects.select_for_update().filter(barcode__in=barcodes).select_related("book"))
         if not copies.exists():
             raise ValueError("No matching copies found.")

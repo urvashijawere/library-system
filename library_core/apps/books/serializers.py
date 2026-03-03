@@ -42,4 +42,21 @@ class AddBookCopiesSerializer(serializers.Serializer):
         return data
 
 class DeleteBookCopySerializer(serializers.Serializer):
-    copy_ids = serializers.ListField(child=serializers.IntegerField(), allow_empty=False)
+    copy_barcodes = serializers.ListField(child=serializers.IntegerField(), allow_empty=False)
+
+    def validate(self, data):
+        barcodes = [barcode for barcode in data["copy_barcodes"]]
+
+        # Check duplicate barcodes inside request
+        if len(barcodes) != len(set(barcodes)):
+            raise serializers.ValidationError(
+                "Duplicate barcodes found in request payload."
+            )
+
+        # Exist in database
+        existing = BookCopy.objects.filter(barcode__in=barcodes).values_list("barcode", flat=True)
+        if not existing:
+            raise serializers.ValidationError(
+                f"These barcodes does not exist: {existing}"
+            )
+        return data

@@ -8,7 +8,6 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import status
-from django.utils import timezone
 from .models import Book, BookCopy
 from .services import BookService
 from apps.records.models import IssueRecord
@@ -59,8 +58,8 @@ class AddBookCopiesAPIView(APIView):
     def delete(self, request):
         serializer = DeleteBookCopySerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        BookService.delete_book_copies(serializer.validated_data)
-        return Response({"message": "Deleted"}, status=200)
+        message = BookService.delete_book_copies(serializer.validated_data)
+        return Response({"message": message}, status=200)
 
 
 class BookCopyViewSet(viewsets.ModelViewSet):
@@ -94,48 +93,3 @@ class BookCopyViewSet(viewsets.ModelViewSet):
                 updated_objects.append(serializer.data)
 
         return Response(updated_objects, status=status.HTTP_200_OK)
-
-    # @action(detail=True, methods=["post"])
-    # def issue(self, request, pk=None):
-    #     copy = self.get_object()
-    #
-    #     if copy.status != "AVAILABLE":
-    #         return Response(
-    #             {"error": "Book not available"},
-    #             status=status.HTTP_400_BAD_REQUEST
-    #         )
-    #
-    #     member_id = request.data.get("member")
-    #     due_date = request.data.get("due_date")
-    #
-    #     IssueRecord.objects.create(
-    #         member_id=member_id,
-    #         book_copy=copy,
-    #         due_date=due_date
-    #     )
-    #
-    #     copy.status = "ISSUED"
-    #     copy.save()
-    #
-    #     return Response({"message": "Book issued successfully"})
-    #
-    # @action(detail=True, methods=["post"])
-    # def returnbook(self, request, pk=None):
-    #     copy = self.get_object()
-    #
-    #     record = IssueRecord.objects.filter(
-    #         book_copy=copy,
-    #         status="ISSUED"
-    #     ).first()
-    #
-    #     if not record:
-    #         return Response({"error": "No active borrow record"})
-    #
-    #     record.returned_at = timezone.now()
-    #     record.status = "RETURNED"
-    #     record.save()
-    #
-    #     copy.status = "AVAILABLE"
-    #     copy.save()
-    #
-    #     return Response({"message": "Book returned successfully"})

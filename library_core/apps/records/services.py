@@ -28,8 +28,12 @@ class IssueService:
 
     @staticmethod
     @transaction.atomic
-    def return_book(record_id):
-        record = IssueRecord.objects.select_related("book_copy").get(id=record_id)
+    def return_book(validated_data):
+        book_copy = validated_data["book_copy"]
+        member_id = validated_data["member_id"]
+
+        record = IssueRecord.objects.select_related("book_copy").get(member_id=member_id, book_copy=book_copy,
+                                                                     status=IssueRecord.IssueStatus.ACTIVE)
 
         if record.status != IssueRecord.IssueStatus.ACTIVE:
             raise ValidationError("Book is not currently issued")

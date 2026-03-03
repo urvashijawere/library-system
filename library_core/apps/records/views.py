@@ -11,7 +11,7 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 from .models import IssueRecord
 from .services import IssueService
 from apps.books.models import BookCopy
-from .serializers import IssueRecordSerializer, IssueSerializer
+from .serializers import IssueRecordSerializer, IssueSerializer, ReturnRecordSerializer
 
 
 class IssueRecordViewSet(viewsets.ModelViewSet):
@@ -33,7 +33,10 @@ class IssueRecordViewSet(viewsets.ModelViewSet):
 
         return Response(result, status=status.HTTP_201_CREATED)
 
-    @action(detail=True, methods=["post"], url_path="return")
-    def return_book(self, request, pk=None):
-        result = IssueService.return_book(record_id=pk)
+    @action(detail=False, methods=["post"], url_path="return")
+    def return_book(self, request):
+        serializer = ReturnRecordSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        result = IssueService.return_book(serializer.validated_data)
         return Response(result, status=status.HTTP_200_OK)
