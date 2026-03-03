@@ -33,6 +33,18 @@ export default function BookCopiesPage() {
     fetchCopies();
   };
 
+  const handleDelete = async (bookCopyId: number) => {
+      const confirmed = window.confirm("Are you sure you want to delete this book?");
+      if (!confirmed) return;
+
+      try {
+        await apiRequest(`/books/book-copies/${bookCopyId}/`, "DELETE");
+        fetchCopies();
+      } catch (err) {
+        console.error(err);
+      }
+  };
+
   return (
     <div className="space-y-6">
       <h1 className="text-3xl font-semibold">Book Copies</h1>
@@ -41,7 +53,7 @@ export default function BookCopiesPage() {
       <div className="flex gap-4 items-center">
         <input
           type="text"
-          placeholder="Search by barcode, ISBN..."
+          placeholder="Search by barcode, status..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           className="border p-2 rounded w-1/2"
@@ -55,7 +67,7 @@ export default function BookCopiesPage() {
         </button>
       </div>
 
-      <BooksCopyTable copies={copies} loading={loading} />
+      <BooksCopyTable copies={copies} loading={loading} onDelete={handleDelete}/>
 
       {showModal && (
         <AddBookCopyModal

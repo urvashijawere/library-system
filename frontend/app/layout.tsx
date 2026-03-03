@@ -1,4 +1,5 @@
 import "./globals.css";
+import { Toaster } from "react-hot-toast";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 
@@ -20,6 +21,12 @@ export default function RootLayout({
           <Sidebar />
           <main className="flex-1 p-10">{children}</main>
         </div>
+        <Toaster
+          position="top-right"
+          toastOptions={{
+            duration: 4000,
+          }}
+        />
       </body>
     </html>
   );

@@ -68,9 +68,9 @@ class BookCopyViewSet(viewsets.ModelViewSet):
     queryset = BookCopy.objects.all()
     serializer_class = BookCopySerializer
 
-    filterset_fields = ['created_at', 'status']
-    search_fields = ['created_at', 'status']
-    ordering_fields = ['created_at', 'status']
+    filterset_fields = ['created_at', 'status', 'barcode']
+    search_fields = ['created_at', 'status', 'barcode']
+    ordering_fields = ['created_at', 'status', 'barcode']
 
     @action(detail=False, methods=["patch"], url_path="bulk-update")
     def bulk_update(self, request):
