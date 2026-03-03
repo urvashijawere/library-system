@@ -22,4 +22,5 @@ urlpatterns = [
     path("api/v1/books/", include("apps.books.urls")),
     path("api/v1/users/", include("apps.users.urls")),
     path("api/v1/records/", include("apps.records.urls")),
+    path("api/v1/dashboard/", include("apps.dashboard.urls")),
 ]

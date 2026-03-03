@@ -11,14 +11,14 @@ class IssueService:
     @transaction.atomic
     def issue_book(validated_data):
         book_copy = validated_data["book_copy"]
-        member_id = validated_data["member_id"]
+        member = validated_data["member"]
         due_date = validated_data["due_date"]
 
         # Prevent issuing already issued book
         if book_copy.status == "ISSUED":
             raise ValidationError("Book copy is already issued")
 
-        record = IssueRecord.objects.create(book_copy=book_copy, member_id=member_id, due_date=due_date,
+        record = IssueRecord.objects.create(book_copy=book_copy, member=member, due_date=due_date,
                                             status=IssueRecord.IssueStatus.ACTIVE)
         book_copy.status = "ISSUED"
         book_copy.save(update_fields=["status"])

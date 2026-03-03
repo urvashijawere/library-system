@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'apps.books',
     'apps.users',
     'apps.records',
+    'apps.dashboard',
     'rest_framework',
     'corsheaders',
 ]

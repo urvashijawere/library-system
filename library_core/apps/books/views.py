@@ -19,8 +19,8 @@ class BookViewSet(viewsets.ModelViewSet):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
 
-    filterset_fields = ['author', 'title']
-    search_fields = ['title', 'author']
+    filterset_fields = ['author', 'title', 'isbn', 'genre']
+    search_fields = ['title', 'author', 'isbn', 'genre']
     ordering_fields = ['title', 'created_at']
 
     @action(detail=False, methods=["patch"], url_path="bulk-update")
