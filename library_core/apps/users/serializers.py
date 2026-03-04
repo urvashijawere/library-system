@@ -38,8 +38,13 @@ class MemberProfileSerializer(serializers.ModelSerializer):
         ]
 
     def validate_username(self, value):
-        if User.objects.filter(username=value).exists():
+        queryset = User.objects.filter(username=value)
+        if self.instance:
+            queryset = queryset.exclude(pk=self.instance.user.pk)
+
+        if queryset.exists():
             raise serializers.ValidationError("Username already exists.")
+
         return value
 
     @transaction.atomic
@@ -65,3 +70,20 @@ class MemberProfileSerializer(serializers.ModelSerializer):
 
         return member
 
+    @transaction.atomic
+    def update(self, instance, validated_data):
+        user = instance.user
+        if "username" in validated_data:
+            user.username = validated_data.pop("username")
+        if "email" in validated_data:
+            user.email = validated_data.pop("email")
+        if "phone_number" in validated_data:
+            user.phone_number = validated_data.pop("phone_number")
+        user.save()
+
+        # Update MemberProfile fields
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+
+        return instance

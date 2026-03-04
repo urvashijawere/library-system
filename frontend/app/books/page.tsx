@@ -82,9 +82,16 @@ export default function BooksPage() {
           onChange={(e) => setGenre(e.target.value)}
         >
           <option value="">All Genres</option>
-          <option value="SELF_HELP">Self Help</option>
           <option value="FICTION">Fiction</option>
+          <option value="NON_FICTION">Non-Fiction</option>
+          <option value="MYSTERY">Mystery</option>
+          <option value="FANTASY">Fantasy</option>
+          <option value="SCIENCE_FICTION">Science Fiction</option>
+          <option value="BIOGRAPHY">Biography</option>
           <option value="HISTORY">History</option>
+          <option value="ROMANCE">Romance</option>
+          <option value="HORROR">Horror</option>
+          <option value="SELF_HELP">Self Help</option>
         </select>
 
         <button onClick={openAddModal} className="button-primary">

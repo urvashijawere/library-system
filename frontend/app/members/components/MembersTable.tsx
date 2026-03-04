@@ -13,6 +13,7 @@ export default function MembersTable({
           <tr>
             <th className="px-4 py-3">Username</th>
             <th className="px-4 py-3">Email</th>
+            <th className="px-4 py-3">Phone number</th>
             <th className="px-4 py-3">Membership ID</th>
             <th className="px-4 py-3">ID Proof Type</th>
             <th className="px-4 py-3">ID Proof Number</th>
@@ -41,6 +42,7 @@ export default function MembersTable({
               >
                 <td className="px-4 py-3">{member.user.username}</td>
                 <td className="px-4 py-3">{member.user.email}</td>
+                <td className="px-4 py-3">{member.user.phone_number}</td>
                 <td className="px-4 py-3">{member.membership_id}</td>
                 <td className="px-4 py-3">{member.id_proof_type}</td>
                 <td className="px-4 py-3">{member.id_proof_number}</td>

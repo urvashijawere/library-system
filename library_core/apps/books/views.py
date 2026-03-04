@@ -1,3 +1,4 @@
+from django.db.models import ProtectedError
 from django_filters.rest_framework import DjangoFilterBackend
 
 from rest_framework import viewsets
@@ -93,3 +94,18 @@ class BookCopyViewSet(viewsets.ModelViewSet):
                 updated_objects.append(serializer.data)
 
         return Response(updated_objects, status=status.HTTP_200_OK)
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+
+        try:
+            self.perform_destroy(instance)
+            return Response(status=status.HTTP_204_NO_CONTENT)
+
+        except ProtectedError:
+            return Response(
+                {
+                    "detail": "Cannot delete book copy if it is issued."
+                },
+                status=status.HTTP_400_BAD_REQUEST
+            )

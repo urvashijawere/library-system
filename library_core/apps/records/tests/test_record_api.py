@@ -18,6 +18,7 @@ class IssueAPITestCase(TestCase):
         )
         self.copy = BookCopy.objects.create(
             book=self.book,
+            barcode= "123456789234567",
             status="AVAILABLE"
         )
         self.user = User.objects.create(
@@ -34,8 +35,8 @@ class IssueAPITestCase(TestCase):
         response = self.client.post(
             "/api/v1/records/issue/",
             {
-                "book_copy_id": self.copy.id,
-                "member_id": self.member.id,
+                "barcode": self.copy.barcode,
+                "membership_id": self.member.membership_id,
                 "due_date": timezone.now()
             }
         )
@@ -47,8 +48,8 @@ class IssueAPITestCase(TestCase):
         response = self.client.post(
             "/api/v1/records/issue/",
             {
-                "book_copy_id": self.copy.id,
-                "member_id": self.member.id,
+                "barcode": self.copy.barcode,
+                "membership_id": self.member.membership_id,
                 "due_date": timezone.now()
             }
         )
@@ -69,8 +70,8 @@ class IssueAPITestCase(TestCase):
         response = self.client.post(
             "/api/v1/records/issue/",
             {
-                "book_copy_id": self.copy.id,
-                "member_id": self.member.id,
+                "barcode": self.copy.barcode,
+                "membership_id": self.member.membership_id,
                 "due_date": timezone.now()
             }
         )
@@ -78,12 +79,13 @@ class IssueAPITestCase(TestCase):
 
         # check records
         expected_response_json = [{'id': 1,
-                                   'due_date': '2026-01-01T10:00:00Z',
+                                   'book_copy': {'id': self.copy.id, 'barcode': '123456789234567',
+                                                 'book': {'id': self.copy.book.id, 'title': 'Test Book'}},
+                                   'member': {'id': self.member.id, 'membership_id': 'M1'},
                                    'issued_at': '2026-01-01T10:00:00Z',
-                                   'returned_at': None, 'status': 'ACTIVE',
-                                   'fine_amount': '0.00',
-                                   'book_copy': self.copy.id,
-                                   'member': self.member.id}]
+                                   'due_date': '2026-01-01T10:00:00Z',
+                                   'returned_at': None, 'status': 'ACTIVE', 'fine_amount': '0.00'}]
+
 
         response = self.client.get("/api/v1/records/")
         self.assertEqual(response.status_code, 200)
@@ -98,8 +100,8 @@ class IssueAPITestCase(TestCase):
         response = self.client.post(
             "/api/v1/records/issue/",
             {
-                "book_copy_id": self.copy.id,
-                "member_id": self.member.id,
+                "barcode": self.copy.barcode,
+                "membership_id": self.member.membership_id,
                 "due_date": timezone.now()
             }
         )
@@ -117,12 +119,11 @@ class IssueAPITestCase(TestCase):
 
         # check records
         expected_response_json = [{'id': 3,
-                                   'due_date': '2026-01-01T10:00:00Z',
-                                   'issued_at': '2026-01-01T10:00:00Z',
-                                   'returned_at': '2026-01-01T10:00:00Z', 'status': 'RETURNED',
-                                   'fine_amount': '0.00',
-                                   'book_copy': self.copy.id,
-                                   'member': self.member.id}]
+                                   'book_copy': {'id': self.copy.id, 'barcode': '123456789234567',
+                                                 'book': {'id': self.copy.book.id, 'title': 'Test Book'}},
+                                   'member': {'id': self.member.id, 'membership_id': 'M1'},
+                                   'issued_at': '2026-01-01T10:00:00Z', 'due_date': '2026-01-01T10:00:00Z',
+                                   'returned_at': '2026-01-01T10:00:00Z', 'status': 'RETURNED', 'fine_amount': '0.00'}]
 
         response = self.client.get("/api/v1/records/")
         self.assertEqual(response.status_code, 200)
@@ -133,7 +134,7 @@ class IssueAPITestCase(TestCase):
 
     def test_return_book_api_failure(self):
         with self.assertRaises(Exception):
-            self.client.post(
+            resp = self.client.post(
                 "/api/v1/records/return/",
                 {
                     "book_copy_id": self.copy.id,

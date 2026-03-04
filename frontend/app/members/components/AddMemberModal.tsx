@@ -10,11 +10,12 @@ export default function AddMemberModal({
 }: any) {
   const [formData, setFormData] = useState({
     username: "",
-    password: "",
+    phone_number: "",
     email: "",
     membership_id: "",
     id_proof_type: "",
     id_proof_number: "",
+    password: "",
   });
 
   useEffect(() => {
@@ -24,7 +25,8 @@ export default function AddMemberModal({
         ...member,
         username: member.user.username,
         email: member.user.email,
-        password: "", // don't prefill password
+        phone_number: member.user.phone_number || "",
+        password: member.user.password,
       });
     }
   }, [member]);
@@ -43,7 +45,7 @@ export default function AddMemberModal({
       if (member) {
         await apiRequest(
           `/users/members/${member.id}/`,
-          "PUT",
+          "PATCH",
           formData
         );
       } else {
@@ -68,24 +70,13 @@ export default function AddMemberModal({
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-3">
-          <input
+          {!member && (<input
             name="username"
             placeholder="Username"
             value={formData.username}
             onChange={handleChange}
             className="border p-2 w-full"
-          />
-
-          {!member && (
-            <input
-              name="password"
-              type="password"
-              placeholder="Password"
-              value={formData.password}
-              onChange={handleChange}
-              className="border p-2 w-full"
-            />
-          )}
+          />)}
 
           <input
             name="email"
@@ -118,6 +109,14 @@ export default function AddMemberModal({
             onChange={handleChange}
             className="border p-2 w-full"
           />
+
+          <input
+              name="phone_number"
+              placeholder="Phone number"
+              value={formData.phone_number}
+              onChange={handleChange}
+              className="border p-2 w-full"
+           />
 
           <div className="flex justify-end gap-3">
             <button

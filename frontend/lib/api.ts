@@ -16,12 +16,12 @@ export async function apiRequest(
         body: body ? JSON.stringify(body) : undefined,
       });
 
-      const data = await res.json();
-
       // Handle 204 No Content (DELETE)
       if (res.status === 204) {
         return null;
       }
+
+      const data = await res.json();
 
       if (!res.ok) {
           const errorMessage = parseErrorMessage(data);

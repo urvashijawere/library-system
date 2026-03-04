@@ -21,10 +21,9 @@ class MemberViewSetTests(TestCase):
         )
 
     def test_create_member(self):
-        new_user = User.objects.create_user(username="member2")
-
         data = {
-            "user": new_user.id,
+            "username":"Alex",
+            "password":"12345678",
             "membership_id": "M002",
             "id_proof_type": "Adhaaar",
             "id_proof_number": "qwuytduqw1233"
