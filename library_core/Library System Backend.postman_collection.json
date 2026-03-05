@@ -43,13 +43,117 @@
           "response": []
         },
         {
+          "name": "Books",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n        \"isbn\": \"12345678910\",\n        \"title\": \"Clean Code New\",\n        \"author\": \"Robert C. Martin\",\n        \"genre\": \"NON_FICTION\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/v1/books/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "books",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Books",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n        \"isbn\": \"12345678910\",\n        \"title\": \"Clean Code Old\",\n        \"genre\": \"SELF_HELP\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/v1/books/5/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "books",
+                "5",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Books",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n        \"isbn\": \"12345678910\",\n        \"title\": \"Clean Code Old\",\n        \"genre\": \"SELF_HELP\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/v1/books/5/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "books",
+                "5",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
           "name": "Book bulk update",
           "request": {
             "method": "PATCH",
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "[\n  { \"id\": 1, \"genre\": \"NON_FICTION\" },\n  { \"id\": 2, \"author\": \"Alex Xu Sr\" },\n  { \"id\": 3, \"author\": \"Robert  King\"}\n]",
+              "raw": "[\n  { \"id\": 1, \"genre\": \"FICTION\" },\n  { \"id\": 2, \"author\": \"Alex Xu\" },\n  { \"id\": 3, \"author\": \"Robert King Sr\"}\n]",
               "options": {
                 "raw": {
                   "language": "json"
@@ -97,6 +201,42 @@
                 "v1",
                 "books",
                 "book-copies",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Book Copies Bulk update",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  { \"id\": 1, \"status\": \"LOST\" },\n  { \"id\": 2, \"status\": \"LOST\" },\n  { \"id\": 3, \"status\": \"LOST\" }\n]",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/v1/books/book-copies/bulk-update/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "books",
+                "book-copies",
+                "bulk-update",
                 ""
               ]
             }
@@ -155,49 +295,13 @@
           "response": []
         },
         {
-          "name": "Book Copies Bulk update",
-          "request": {
-            "method": "PATCH",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "[\n  { \"id\": 1, \"status\": \"LOST\" },\n  { \"id\": 2, \"status\": \"LOST\" },\n  { \"id\": 3, \"status\": \"LOST\" }\n]",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "http://127.0.0.1:8000/api/v1/books/book-copies/bulk-update/",
-              "protocol": "http",
-              "host": [
-                "127",
-                "0",
-                "0",
-                "1"
-              ],
-              "port": "8000",
-              "path": [
-                "api",
-                "v1",
-                "books",
-                "book-copies",
-                "bulk-update",
-                ""
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Delete Book Copies",
+          "name": "Delete Bulk Book Copies",
           "request": {
             "method": "DELETE",
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"copy_ids\": [\n        \"2222\",\n        \"5678\",\n        \"2345\"\n    ] // Variable to hold the list of copy IDs to be deleted\n}",
+              "raw": "{\n    \"copy_barcodes\": [\n        \"11111\",\n        \"3333\",\n        \"4444\"\n    ] // Variable to hold the list of copy IDs to be deleted\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -237,7 +341,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"username\": \"William\",\n    \"email\": \"william.smith@example.com\",\n    \"password\": \"password12345\"\n}",
+              "raw": "{\n    \"username\": \"Max\",\n    \"email\": \"max.samson@example.com\",\n    \"password\": \"password1237845\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -267,11 +371,11 @@
         {
           "name": "MemberProfile",
           "request": {
-            "method": "POST",
+            "method": "PUT",
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"user\": \"2\",\n    \"membership_id\" : \"56789s\",\n    \"id_proof_type\": \"Aadhar\",\n    \"id_proof_number\": \"12345678sEFasdg\"\n}",
+              "raw": "{\n    \"username\": \"Alex\",\n    \"password\": \"234567\",\n    \"email\": \"qwewerr@q.com\",\n    \"membership_id\" : \"10111213tefrsdgdf\",\n    \"id_proof_type\": \"Aadhar\",\n    \"id_proof_number\": \"123hjgvhjgv\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -279,7 +383,7 @@
               }
             },
             "url": {
-              "raw": "http://127.0.0.1:8000/api/v1/users/members/",
+              "raw": "http://127.0.0.1:8000/api/v1/users/members/1/",
               "protocol": "http",
               "host": [
                 "127",
@@ -293,6 +397,43 @@
                 "v1",
                 "users",
                 "members",
+                "1",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update member",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \n    \"password\": \"234567\"\n    \n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/v1/users/members/1/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "users",
+                "members",
+                "1",
                 ""
               ]
             }
@@ -311,7 +452,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"book_copy_id\": 19,\n  \"member_id\": 2,\n  \"due_date\": \"2026-03-15T10:00:00\"\n}",
+              "raw": "{\n  \"barcode\": \"56789\",\n  \"membership_id\": \"wertyui\",\n  \"due_date\": \"2026-03-15T10:00:00\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -357,7 +498,7 @@
               }
             },
             "url": {
-              "raw": "http://127.0.0.1:8000/api/v1/records/?due_date__lt=2021-12-30T00:00:00Z&status=ACTIVE",
+              "raw": "http://127.0.0.1:8000/api/v1/records",
               "protocol": "http",
               "host": [
                 "127",
@@ -369,18 +510,7 @@
               "path": [
                 "api",
                 "v1",
-                "records",
-                ""
-              ],
-              "query": [
-                {
-                  "key": "due_date__lt",
-                  "value": "2021-12-30T00:00:00Z"
-                },
-                {
-                  "key": "status",
-                  "value": "ACTIVE"
-                }
+                "records"
               ]
             }
           },
@@ -391,8 +521,17 @@
           "request": {
             "method": "POST",
             "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"book_copy_id\": 20,\n   \"member_id\": 2\n//   \"due_date\": \"2026-03-15T10:00:00\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
             "url": {
-              "raw": "http://127.0.0.1:8000/api/v1/records/4/return/",
+              "raw": "http://127.0.0.1:8000/api/v1/records/return/",
               "protocol": "http",
               "host": [
                 "127",
@@ -405,9 +544,44 @@
                 "api",
                 "v1",
                 "records",
-                "4",
                 "return",
                 ""
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Dashboard Ops",
+      "item": [
+        {
+          "name": "Dashboard",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"copy_barcodes\": [\n        \"2222\",\n        \"5678\",\n        \"2345\"\n    ] // Variable to hold the list of copy IDs to be deleted\n}"
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/v1/dashboard",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "dashboard"
               ]
             }
           },
