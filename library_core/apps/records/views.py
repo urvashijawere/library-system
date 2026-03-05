@@ -20,9 +20,9 @@ class IssueRecordViewSet(viewsets.ModelViewSet):
     queryset = IssueRecord.objects.all()
     serializer_class = IssueSerializer  # for create only
 
-    filterset_fields = ['issued_at', 'due_date', 'returned_at', 'member', 'status']
-    search_fields = ['issued_at', 'due_date', 'returned_at']
-    ordering_fields = ['issued_at', 'due_date', 'returned_at']
+    filterset_fields = ['issued_at', 'due_date', 'returned_at', 'status']
+    search_fields = ['issued_at', 'due_date', 'returned_at', 'status']
+    ordering_fields = ['issued_at', 'due_date', 'returned_at', 'status']
 
     @action(detail=False, methods=["post"], url_path="issue")
     def issue(self, request):

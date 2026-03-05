@@ -23,13 +23,13 @@ class MemberViewSet(viewsets.ModelViewSet):
     serializer_class = MemberProfileSerializer
 
     # Exact filtering
-    filterset_fields = ['user', 'membership_id']
+    filterset_fields = ['membership_id', 'id_proof_number']
 
     # Search (partial match)
-    search_fields = ['user', 'membership_id']
+    search_fields = ['membership_id', 'id_proof_number']
 
     # Ordering
-    ordering_fields = ['user', 'membership_id']
+    ordering_fields = ['membership_id', 'id_proof_number']
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()

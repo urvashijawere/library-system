@@ -47,7 +47,7 @@ export default function RecordsPage() {
       <div className="flex gap-4 items-center">
         <input
           type="text"
-          placeholder="Search by book or member..."
+          placeholder="Search by status or issue date / due date (YYYY-MM-DD)"
           className="border p-2 rounded w-1/2"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
